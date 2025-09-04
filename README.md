@@ -61,25 +61,17 @@ ShopEZ Laptops is an intelligent AI-powered chatbot assistant designed to provid
 
 ## ⚙️ Installation & Setup
 
-### Prerequisites
-- Python 3.8 or higher  
-- Pinecone account and API key  
-- OpenAI API key  
-- Database (PostgreSQL/MySQL)  
+Follow these steps to set up and run the project:
 
-### Installation Steps
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd shopez-laptops
-## ⚙️ Installation & Setup
-
-### 1. Install Dependencies
-Run the following command to install all required packages:
 ```bash
+# 1. Clone the repository
+git clone <repository-url>
+cd shopez-laptops
+
+# 2. Install dependencies
 pip install -r requirements.txt
 
-### 2. create your .env file with this
+# 3. Create your .env file in the project root with the following content
 # ==============================
 #  ShopEZ Bot - Environment File
 # ==============================
@@ -98,11 +90,10 @@ PINECONE_ORDERS_HOST=https://product-order-duyfy6u.svc.aped-4627-b74a.pinecone.i
 # 🔹 OpenAI Configuration
 OPENAI_API_KEY=your_openai_api_key_here
 
-# App Configuration
+# 🔹 App Configuration
 DEBUG=True
 HOST=0.0.0.0
 PORT=8003
 
-### 3. Run your Application
-bash
-> python -m app.main      
+# 4. Run the application
+python -m app.main
