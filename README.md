@@ -108,7 +108,7 @@ PINECONE_ORDERS_INDEX_NAME=product-order
 PINECONE_ORDERS_HOST=https://product-order-duyfy6u.svc.aped-4627-b74a.pinecone.io
 
 # OpenAI Configuration
-OPENAI_API_KEY=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
+OPENAI_API_KEY=your api key here
 
 # App Configuration
 DEBUG=True
