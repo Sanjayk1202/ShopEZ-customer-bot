@@ -1,0 +1,41 @@
+[
+  {
+    "transaction_id": "CXL-6729CF22",
+    "user_id": "CUST-DEECB0BD",
+    "username": "Sanjay1112",
+    "order_id": "ORD-1010",
+    "product_id": "TW00011",
+    "product_name": "acer Aspire 3 Ryzen 3 Dual Core 3250U",
+    "cancellation_reason": "Other",
+    "cancellation_date": "2025-08-31",
+    "refund_amount": 26990.0,
+    "refund_status": "processing",
+    "refund_expected_date": "2025-09-07"
+  },
+  {
+    "transaction_id": "CXL-35CCE651",
+    "user_id": "CUST-DEECB0BD",
+    "username": "Sanjay1112",
+    "order_id": "ORD-1010",
+    "product_id": "TW00011",
+    "product_name": "acer Aspire 3 Ryzen 3 Dual Core 3250U",
+    "cancellation_reason": "Other",
+    "cancellation_date": "2025-08-31",
+    "refund_amount": 26990.0,
+    "refund_status": "processing",
+    "refund_expected_date": "2025-09-07"
+  },
+  {
+    "transaction_id": "CXL-3670D4D8",
+    "user_id": "CUST-FFC3D12D",
+    "username": "Sanjay1202",
+    "order_id": "ORD-1009",
+    "product_id": "TW00010",
+    "product_name": "RedmiBook Pro Core i5 11th Gen",
+    "cancellation_reason": "Other",
+    "cancellation_date": "2025-09-01",
+    "refund_amount": 38990.0,
+    "refund_status": "processing",
+    "refund_expected_date": "2025-09-08"
+  }
+]

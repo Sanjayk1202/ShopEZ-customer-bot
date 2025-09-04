@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEZ Laptops (!sample test project) - Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Background styling */
+        body {
+            background-image: url('/static/photo-1542640244-7e672d6cef4e.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #0a0a0a;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .auth-container {
+            max-width: 400px;
+            padding: 35px 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            color: #ffffff;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h1 {
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+        }
+        
+        .auth-header p {
+            color: #cccccc;
+            margin: 0;
+            font-size: 15px;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: #e0e0e0;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+        
+        .form-group input {
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+        
+        .form-group input::placeholder {
+            color: #888888;
+        }
+        
+        .form-group input:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+        
+        .auth-btn {
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+        
+        .auth-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cccccc;
+            font-size: 14px;
+        }
+        
+        .register-link a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .register-link a:hover {
+            color: #e0e0e0;
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background-color: rgba(204, 51, 51, 0.2);
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(204, 51, 51, 0.3);
+            font-size: 14px;
+        }
+        
+        .success-message {
+            background-color: rgba(51, 204, 51, 0.2);
+            color: #6bff6b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(51, 204, 51, 0.3);
+            font-size: 14px;
+        }
+
+        .logo {
+            height: 65px;
+            width: auto;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <img src="/static/logo1.png" alt="Thirdwave Logo" class="logo">
+            <h1>ShopEZ Laptops</h1>
+            <p>Sign in to your account</p>
+        </div>
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if message %}
+        <div class="success-message">
+            {{ message }}
+        </div>
+        {% endif %}
+        
+        <form class="auth-form" action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Username or Email:</label>
+                <input type="text" id="username" name="username" 
+                       value="{{ username if username else '' }}" 
+                       placeholder="Enter your username or email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" 
+                       placeholder="Enter your password" required>
+            </div>
+            
+            <button type="submit" class="auth-btn">Sign In</button>
+        </form>
+        
+        <div class="register-link">
+            Don't have an account? <a href="/register">Register here</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "company": "ShopEZ",
+  "policy_type": "Laptop Warranty",
+  "policy": [
+    "All ShopEZ laptops come with a 1-year warranty from the date of purchase.",
+    "The warranty covers manufacturing defects in materials and workmanship.",
+    "It does not cover damage due to accidents, misuse, unauthorized repairs, or normal wear and tear.",
+    "Customers must provide a valid purchase invoice for warranty claims.",
+    "ShopEZ reserves the right to repair, replace, or refund the product at its discretion."
+  ]
+}

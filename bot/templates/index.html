@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEZ Laptops AI Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Background styling */
+        body {
+            background-image: url('/static/photo-1542640244-7e672d6cef4e.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #0a0a0a;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+            color: #ffffff;
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 12px 12px 0 0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .user-info {
+            color: #e0e0e0;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .user-info a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .user-info a:hover {
+            color: #cccccc;
+        }
+
+        /* Chat container styling */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: visible;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            font-size: 15px;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Input container styling */
+        .input-container {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 0 0 12px 12px;
+            flex-shrink: 0;
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .quick-btn {
+            padding: 10px 18px;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .message-input {
+            display: flex;
+            gap: 12px;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            outline: none;
+            font-size: 15px;
+            color: #ffffff;
+        }
+
+        .message-input input::placeholder {
+            color: #888888;
+        }
+
+        .message-input input:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .message-input button {
+            padding: 14px 24px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .message-input button:hover {
+            background-color: rgba(255, 255, 255, 1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Product Grid Scrollable Container */
+        .product-grid-container, .order-grid-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom scrollbars for grid containers */
+        .product-grid-container::-webkit-scrollbar,
+        .order-grid-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .product-grid-container::-webkit-scrollbar-track,
+        .order-grid-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .product-grid-container::-webkit-scrollbar-thumb,
+        .order-grid-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .product-grid-container::-webkit-scrollbar-thumb:hover,
+        .order-grid-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Product Grid Styles */
+        .product-grid, .order-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            padding: 5px;
+        }
+
+        .product-card, .order-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover, .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .product-image, .order-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .product-name, .order-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .product-price, .order-price {
+            margin-bottom: 8px;
+        }
+
+        .current-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ff6b6b;
+        }
+
+        .original-price {
+            font-size: 13px;
+            color: #cccccc;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+
+        .discount {
+            font-size: 11px;
+            color: #6bff6b;
+            font-weight: 600;
+            margin-left: 6px;
+            background: rgba(107, 255, 107, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .product-rating, .order-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .stars {
+            color: #ffd700;
+            margin-right: 6px;
+            font-size: 12px;
+        }
+
+        .rating-count, .status-badge {
+            font-size: 11px;
+            color: #cccccc;
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .status-delivered {
+            background: rgba(107, 255, 107, 0.15);
+            color: #6bff6b;
+        }
+
+        .status-pending {
+            background: rgba(255, 204, 0, 0.15);
+            color: #ffcc00;
+        }
+
+        .status-processing {
+            background: rgba(255, 204, 0, 0.15);
+            color: #ffcc00;
+        }
+
+        .status-shipped {
+            background: rgba(107, 255, 107, 0.15);
+            color: #6bff6b;
+        }
+
+        .status-confirmed {
+            background: rgba(107, 255, 107, 0.15);
+            color: #6bff6b;
+        }
+
+        .status-cancelled {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+        }
+
+        .product-specs, .order-details {
+            font-size: 11px;
+            color: #cccccc;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .delivery-badge {
+            font-size: 10px;
+            color: #6bff6b;
+            background: rgba(107, 255, 107, 0.15);
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .product-actions, .order-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .view-btn, .cart-btn, .action-btn {
+            flex: 1;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn, .action-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+        }
+
+        .view-btn:hover, .action-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-1px);
+        }
+
+        .cart-btn {
+            background: rgba(255, 107, 107, 0.9);
+            color: white;
+        }
+
+        .cart-btn:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: translateY(-1px);
+        }
+
+        /* Message styles for products and orders */
+        .bot-message.product-message, .bot-message.order-message, .bot-message.tracking-message {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 10px;
+            max-width: 90%;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .logo {
+            height: 80px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Tracking details styles */
+        .tracking-details {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .tracking-card h3 {
+            margin: 0 0 15px 0;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .tracking-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .tracking-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tracking-label {
+            font-weight: 600;
+            color: #cccccc;
+            font-size: 13px;
+        }
+
+        .tracking-value {
+            color: #ffffff;
+            font-size: 13px;
+        }
+
+        /* Reason selection styles */
+        .reason-selection {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .reason-title {
+            margin: 0 0 15px 0;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .reason-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .reason-btn {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .reason-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Confirmation dialog */
+        .confirmation-dialog {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .confirmation-title {
+            margin: 0 0 15px 0;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .confirm-btn, .cancel-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-btn {
+            background: rgba(107, 255, 107, 0.9);
+            color: #000000;
+        }
+
+        .confirm-btn:hover {
+            background: rgba(107, 255, 107, 1);
+        }
+
+        .cancel-btn {
+            background: rgba(255, 107, 107, 0.9);
+            color: #000000;
+        }
+
+        .cancel-btn:hover {
+            background: rgba(255, 107, 107, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <img src="/static/logo1.png" alt="Thirdwave Logo" class="logo">
+                <h1>ShopEZ Laptops AI Assistant</h1>
+            </div>
+            <div class="user-info">
+                <span>Welcome, {{ user.first_name or user.username }}!</span>
+                <span class="user-id">ID: {{ user.user_id }}</span>
+                <a href="/logout" style="margin-top: 5px; display: block;">Logout</a>
+            </div>
+        </header>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-messages" id="chatMessages"></div>
+        </div>
+
+        <div class="input-container">
+            <div class="quick-buttons" id="quickButtons">
+                <button class="quick-btn" onclick="sendQuickReply('Purchase Laptop')">Purchase Laptop</button>
+                <button class="quick-btn" onclick="sendQuickReply('Order Status')">Order Status</button>
+                <button class="quick-btn" onclick="sendQuickReply('Return/Cancel')">Return/Cancel</button>
+                <button class="quick-btn" onclick="sendQuickReply('Warranty')">Warranty</button>
+            </div>
+            
+            <div class="message-input">
+                <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+        let currentOrderId = null;
+        let currentAction = null;
+
+        // Function to get cookie value
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        function connectWebSocket() {
+            const session_token = getCookie('session_token');
+            console.log("Session token from cookie:", session_token);
+            
+            if (!session_token) {
+                console.error("No session token found in cookies");
+                displayMessage("Authentication issue. Please logout and login again.", 'bot');
+                return;
+            }
+            
+            try {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsUrl = `${protocol}//${window.location.host}/ws`;
+                
+                // Close existing connection if any
+                if (ws) {
+                    ws.close();
+                }
+                
+                ws = new WebSocket(`${wsUrl}?session_token=${encodeURIComponent(session_token)}`);
+                
+                ws.onopen = function() {
+                    console.log("✅ WebSocket connected successfully");
+                    reconnectAttempts = 0; // Reset reconnect attempts on successful connection
+                };
+
+                ws.onmessage = function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        
+                        if (data.clear_context) {
+                            // Clear chat if main menu was requested
+                            document.getElementById('chatMessages').innerHTML = '';
+                            currentOrderId = null;
+                            currentAction = null;
+                        }
+                        
+                        if (data.display_type === "product_grid" && data.products) {
+                            displayProductGrid(data.products, data.response);
+                        } else if (data.display_type === "order_grid" && data.orders) {
+                            displayOrderGrid(data.orders, data.response);
+                        } else if (data.display_type === "tracking_details" && data.tracking_info) {
+                            displayTrackingDetails(data.tracking_info, data.response);
+                        } else if (data.reasons) {
+                            displayReasonSelection(data.reasons, data.message);
+                        } else if (data.requires_confirmation) {
+                            displayConfirmationDialog(data.message);
+                        } else {
+                            displayMessage(data.response, 'bot');
+                        }
+                        
+                        if (data.buttons && data.buttons.length > 0) {
+                            updateQuickButtons(data.buttons);
+                        }
+                    } catch (e) {
+                        console.error("Error parsing message:", e);
+                    }
+                };
+
+                ws.onerror = function(error) {
+                    console.error("WebSocket error:", error);
+                };
+
+                ws.onclose = function(event) {
+                    console.log("WebSocket closed:", event.code, event.reason);
+                    
+                    // Attempt to reconnect with exponential backoff
+                    if (reconnectAttempts < maxReconnectAttempts) {
+                        const delay = Math.pow(2, reconnectAttempts) * 1000;
+                        console.log(`Reconnecting in ${delay}ms...`);
+                        
+                        setTimeout(() => {
+                            reconnectAttempts++;
+                            connectWebSocket();
+                        }, delay);
+                    } else {
+                        displayMessage("Connection lost. Please refresh the page.", 'bot');
+                    }
+                };
+                
+            } catch (e) {
+                console.error("WebSocket connection failed:", e);
+                displayMessage("Failed to connect. Please refresh.", 'bot');
+            }
+        }
+
+        function displayMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll the main chat container, not the messages container
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function displayProductGrid(products, messageText) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Display the message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message product-message';
+            messageDiv.textContent = messageText;
+            chatMessages.appendChild(messageDiv);
+            
+            // Create scrollable container for products
+            const scrollContainer = document.createElement('div');
+            scrollContainer.className = 'product-grid-container';
+            
+            // Create grid container
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'product-grid';
+            
+            // Add products to grid
+            products.forEach(product => {
+                const productCard = createProductCard(product);
+                gridContainer.appendChild(productCard);
+            });
+            
+            // Add grid to scroll container
+            scrollContainer.appendChild(gridContainer);
+            
+            // Add scroll container to chat messages
+            chatMessages.appendChild(scrollContainer);
+            
+            // Scroll the main chat container to bottom
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function displayOrderGrid(orders, messageText) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Display the message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message order-message';
+            messageDiv.textContent = messageText;
+            chatMessages.appendChild(messageDiv);
+            
+            // Create scrollable container for orders
+            const scrollContainer = document.createElement('div');
+            scrollContainer.className = 'order-grid-container';
+            
+            // Create grid container
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'order-grid';
+            
+            // Add orders to grid
+            orders.forEach(order => {
+                const orderCard = createOrderCard(order);
+                gridContainer.appendChild(orderCard);
+            });
+            
+            // Add grid to scroll container
+            scrollContainer.appendChild(gridContainer);
+            
+            // Add scroll container to chat messages
+            chatMessages.appendChild(scrollContainer);
+            
+            // Scroll the main chat container to bottom
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function displayTrackingDetails(trackingInfo, messageText) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Display the message text
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message tracking-message';
+            messageDiv.textContent = messageText;
+            chatMessages.appendChild(messageDiv);
+            
+            // Create tracking details container
+            const detailsContainer = document.createElement('div');
+            detailsContainer.className = 'tracking-details';
+            
+            detailsContainer.innerHTML = `
+                <div class="tracking-card">
+                    <h3>📦 Order Tracking Details</h3>
+                    <div class="tracking-info">
+                        <div class="tracking-row">
+                            <span class="tracking-label">Order ID:</span>
+                            <span class="tracking-value">${trackingInfo.order_id}</span>
+                        </div>
+                        <div class="tracking-row">
+                            <span class="tracking-label">Product:</span>
+                            <span class="tracking-value">${trackingInfo.product_name}</span>
+                        </div>
+                        <div class="tracking-row">
+                            <span class="tracking-label">Price:</span>
+                            <span class="tracking-value">${trackingInfo.price}</span>
+                        </div>
+                        <div class="tracking-row">
+                            <span class="tracking-label">Carrier:</span>
+                            <span class="tracking-value">${trackingInfo.carrier}</span>
+                        </div>
+                        <div class="tracking-row">
+                            <span class="tracking-label">Tracking #:</span>
+                            <span class="tracking-value">${trackingInfo.tracking_number}</span>
+                        </div>
+                        <div class="tracking-row">
+                            <span class="tracking-label">Est. Delivery:</span>
+                            <span class="tracking-value">${trackingInfo.estimated_delivery}</span>
+                        </div>
+                        <div class="tracking-row">
+                            <span class="tracking-label">Order Date:</span>
+                            <span class="tracking-value">${trackingInfo.order_date}</span>
+                        </div>
+                        <div class="tracking-row">
+                            <span class="tracking-label">Status:</span>
+                            <span class="tracking-value status-${trackingInfo.status ? trackingInfo.status.toLowerCase() : 'unknown'}">${trackingInfo.status || 'Unknown'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(detailsContainer);
+            
+            // Scroll the main chat container to bottom
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function displayReasonSelection(reasons, messageText) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Display the message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            messageDiv.textContent = messageText;
+            chatMessages.appendChild(messageDiv);
+            
+            // Create reason selection container
+            const reasonContainer = document.createElement('div');
+            reasonContainer.className = 'reason-selection';
+            
+            reasonContainer.innerHTML = `
+                <h3 class="reason-title">Please select a reason:</h3>
+                <div class="reason-buttons" id="reasonButtons"></div>
+            `;
+            
+            // Add reason buttons
+            const reasonButtons = reasonContainer.querySelector('#reasonButtons');
+            reasons.forEach(reason => {
+                const button = document.createElement('button');
+                button.className = 'reason-btn';
+                button.textContent = reason;
+                button.onclick = () => selectReason(reason);
+                reasonButtons.appendChild(button);
+            });
+            
+            chatMessages.appendChild(reasonContainer);
+            
+            // Scroll the main chat container to bottom
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function displayConfirmationDialog(messageText) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Display the message
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            messageDiv.textContent = messageText;
+            chatMessages.appendChild(messageDiv);
+            
+            // Create confirmation dialog
+            const confirmationContainer = document.createElement('div');
+            confirmationContainer.className = 'confirmation-dialog';
+            
+            confirmationContainer.innerHTML = `
+                <h3 class="confirmation-title">Please confirm:</h3>
+                <div class="confirmation-buttons">
+                    <button class="confirm-btn" onclick="confirmAction()">Yes, Confirm</button>
+                    <button class="cancel-btn" onclick="cancelAction()">No, Cancel</button>
+                </div>
+            `;
+            
+            chatMessages.appendChild(confirmationContainer);
+            
+            // Scroll the main chat container to bottom
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            
+            // Calculate stars for rating
+            const rating = product.rating || 0;
+            const stars = '⭐'.repeat(Math.floor(rating)) + (rating % 1 >= 0.5 ? '½' : '');
+            
+            // Check if there's a discount
+            const hasDiscount = product.original_price > product.price;
+            const discountPercent = hasDiscount ? 
+                Math.round(((product.original_price - product.price) / product.original_price) * 100) : 0;
+            
+            card.innerHTML = `
+                ${product.image_url ? `
+                    <img src="${product.image_url}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/250x200?text=No+Image'">
+                ` : `
+                    <div class="product-image" style="display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05);">
+                        <span style="color: #cccccc; font-size: 12px;">No Image</span>
+                    </div>
+                `}
+                
+                <h3 class="product-name">${product.name}</h3>
+                
+                <div class="product-price">
+                    <span class="current-price">¥${product.price.toLocaleString()}</span>
+                    ${hasDiscount ? `
+                        <span class="original-price">¥${product.original_price.toLocaleString()}</span>
+                        <span class="discount">${discountPercent}% off</span>
+                    ` : ''}
+                </div>
+                
+                <div class="product-rating">
+                    <span class="stars">${stars}</span>
+                    <span class="rating-count">(${product.reviews || 0} reviews)</span>
+                </div>
+                
+                <div class="product-specs">
+                    ${product.ram ? `<span>${product.ram}</span> • ` : ''}
+                    ${product.processor ? `<span>${product.processor}</span> • ` : ''}
+                    ${product.storage ? `<span>${product.storage}</span>` : ''}
+                </div>
+                
+                ${product.fast_delivery ? `
+                    <div class="delivery-badge">🚚 Fast Delivery</div>
+                ` : ''}
+                
+                <div class="product-actions">
+                    <button class="view-btn" onclick="viewProduct('${product.product_url || '#'}')">View</button>
+                    <button class="cart-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function createOrderCard(order) {
+            const card = document.createElement('div');
+            card.className = 'order-card';
+            
+            // Determine status class
+            let statusClass = 'status-pending';
+            let statusText = order.status || 'Pending';
+            
+            if (statusText.toLowerCase().includes('delivered')) {
+                statusClass = 'status-delivered';
+            } else if (statusText.toLowerCase().includes('shipped')) {
+                statusClass = 'status-shipped';
+            } else if (statusText.toLowerCase().includes('processing')) {
+                statusClass = 'status-processing';
+            } else if (statusText.toLowerCase().includes('confirmed')) {
+                statusClass = 'status-confirmed';
+            } else if (statusText.toLowerCase().includes('cancel')) {
+                statusClass = 'status-cancelled';
+            }
+            
+            card.innerHTML = `
+                ${order.image_url ? `
+                    <img src="${order.image_url}" alt="${order.product_name || 'Order'}" class="order-image" onerror="this.src='https://via.placeholder.com/250x200?text=No+Image'">
+                ` : `
+                    <div class="order-image" style="display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05);">
+                        <span style="color: #cccccc; font-size: 12px;">No Image</span>
+                    </div>
+                `}
+                
+                <h3 class="order-name">${order.product_name || 'Laptop Order'}</h3>
+                
+                <div class="order-price">
+                    <span class="current-price">¥${order.price ? order.price.toLocaleString() : '0'}</span>
+                </div>
+                
+                <div class="order-status">
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </div>
+                
+                <div class="order-details">
+                    ${order.order_id ? `<div><strong>Order ID:</strong> ${order.order_id}</div>` : ''}
+                    ${order.order_date ? `<div><strong>Order Date:</strong> ${order.order_date}</div>` : ''}
+                    ${order.delivery_date ? `<div><strong>Delivery:</strong> ${order.delivery_date}</div>` : ''}
+                </div>
+                
+                <div class="order-actions">
+                    ${statusText.toLowerCase().includes('delivered') ? `
+                        <button class="action-btn" onclick="initiateReturn('${order.order_id}')">Return</button>
+                        <button class="action-btn" onclick="initiateWarranty('${order.order_id}')">Warranty</button>
+                    ` : ['shipped', 'confirmed', 'processing', 'out_for_delivery'].some(s => statusText.toLowerCase().includes(s)) ? `
+                        <button class="action-btn" onclick="trackOrder('${order.order_id}')">Track</button>
+                        <button class="action-btn" onclick="cancelOrder('${order.order_id}')">Cancel</button>
+                    ` : `
+                        <button class="action-btn" onclick="trackOrder('${order.order_id}')">Track</button>
+                        <button class="action-btn" onclick="viewOrderDetails('${order.order_id}')">Details</button>
+                    `}
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function viewProduct(url) {
+            if (url && url !== '#') {
+                window.open(url, '_blank');
+            } else {
+                alert('Product details not available');
+            }
+        }
+
+        function addToCart(productId) {
+            console.log('Adding product to cart:', productId);
+            displayMessage(`Added product ${productId} to cart!`, 'bot');
+        }
+
+        function initiateReturn(orderId) {
+            console.log('Initiating return for order:', orderId);
+            currentOrderId = orderId;
+            currentAction = 'return';
+            const message = `I want to return order ${orderId}`;
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function initiateWarranty(orderId) {
+            console.log('Initiating warranty claim for order:', orderId);
+            currentOrderId = orderId;
+            currentAction = 'warranty';
+            const message = `I want to make a warranty claim for order ${orderId}`;
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function trackOrder(orderId) {
+            console.log('Tracking order:', orderId);
+            currentOrderId = orderId;
+            const message = `Track order ${orderId}`;
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function cancelOrder(orderId) {
+            console.log('Cancelling order:', orderId);
+            currentOrderId = orderId;
+            currentAction = 'cancellation';
+            const message = `I want to cancel order ${orderId}`;
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function viewOrderDetails(orderId) {
+            console.log('Viewing details for order:', orderId);
+            currentOrderId = orderId;
+            const message = `Show me details for order ${orderId}`;
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function selectReason(reason) {
+            console.log('Selected reason:', reason);
+            const message = reason;
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function confirmAction() {
+            console.log('Action confirmed');
+            const message = 'yes';
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function cancelAction() {
+            console.log('Action cancelled');
+            const message = 'no';
+            displayMessage(message, 'user');
+            sendQuickReply(message);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message && ws && ws.readyState === WebSocket.OPEN) {
+                displayMessage(message, 'user');
+                ws.send(JSON.stringify({
+                    type: 'message', 
+                    content: message
+                }));
+                input.value = '';
+            }
+        }
+
+        function sendQuickReply(text) {
+            // Message is already displayed by the calling function
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'message', 
+                    content: text
+                }));
+            } else {
+                console.error("WebSocket is not connected");
+                displayMessage("Connection error. Trying to reconnect...", 'bot');
+                connectWebSocket();
+                
+                // Try sending again after a short delay
+                setTimeout(() => {
+                    if (ws && ws.readyState === WebSocket.OPEN) {
+                        ws.send(JSON.stringify({
+                            type: 'message', 
+                            content: text
+                        }));
+                    }
+                }, 1000);
+            }
+        }
+
+        function updateQuickButtons(buttons) {
+            const quickButtons = document.getElementById('quickButtons');
+            quickButtons.innerHTML = '';
+            
+            buttons.forEach(buttonText => {
+                const button = document.createElement('button');
+                button.className = 'quick-btn';
+                button.textContent = buttonText;
+                button.onclick = () => {
+                    displayMessage(buttonText, 'user');
+                    sendQuickReply(buttonText);
+                };
+                quickButtons.appendChild(button);
+            });
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Chat page loaded, testing cookie access...");
+            connectWebSocket();
+            document.getElementById('messageInput').focus();
+        });
+    </script>
+</body>
+</html>

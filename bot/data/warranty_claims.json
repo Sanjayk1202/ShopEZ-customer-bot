@@ -1,0 +1,28 @@
+[
+  {
+    "transaction_id": "WAR-490CC4E5",
+    "user_id": "CUST-1001",
+    "user_name": "Sanjay",
+    "order_id": "ORD-1091",
+    "product_id": "TW00092",
+    "product_name": "HP Pavilion Intel Core i5 12th Gen",
+    "claim_reason": "Battery issues",
+    "claim_date": "2025-08-29",
+    "status": "under_review",
+    "resolution": "Pending assessment",
+    "tracking_number": null
+  },
+  {
+    "transaction_id": "WAR-DF3F8A38",
+    "user_id": "CUST-DEECB0BD",
+    "username": "Sanjay1112",
+    "order_id": "ORD-1008",
+    "product_id": "TW00009",
+    "product_name": "Lenovo V15 G2 Core i3 11th Gen",
+    "claim_reason": "Other",
+    "claim_date": "2025-08-30",
+    "status": "under_review",
+    "resolution": "Pending assessment",
+    "tracking_number": null
+  }
+]
