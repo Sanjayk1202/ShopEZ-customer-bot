@@ -116,27 +116,3 @@ PORT=8003
 bash
  python -m app.main 
 
-
-Project Structure
-text
-shopez-laptops/
-├── app.py                 # Main application entry point
-├── config.py             # Configuration settings
-├── requirements.txt      # Python dependencies
-├── README.md            # This file
-├── data/
-│   └── warranty_policies.json  # Warranty policy definitions
-├── services/
-│   ├── transaction_service.py  # Transaction processing
-│   ├── nlu_service.py         # Natural language understanding
-│   ├── response_generator.py  # Response generation
-│   └── escalation_service.py  # Agent escalation handling
-├── managers/
-│   ├── pinecone_manager.py    # Product database management
-│   └── pinecone_order_manager.py  # Order database management
-├── database/
-│   └── db_connector.py       # Database connection handling
-└── scripts/
-    ├── init_pinecone.py      # Pinecone initialization
-    └── init_database.py      # Database initialization
-
