@@ -108,23 +108,15 @@ PINECONE_ORDERS_INDEX_NAME=product-order
 PINECONE_ORDERS_HOST=https://product-order-duyfy6u.svc.aped-4627-b74a.pinecone.io
 
 # OpenAI Configuration
-OPENAI_API_KEY=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
-
-# App Configuration
+OPENAI_API_KEY=your API kere
 DEBUG=True
 HOST=0.0.0.0
 PORT=8003
 
 bash
-python scripts/init_pinecone.py
-Set up database
+ python -m app.main 
 
-bash
-python scripts/init_database.py
-Run the application
 
-bash
-python app.py
 Project Structure
 text
 shopez-laptops/
@@ -147,3 +139,4 @@ shopez-laptops/
 └── scripts/
     ├── init_pinecone.py      # Pinecone initialization
     └── init_database.py      # Database initialization
+
